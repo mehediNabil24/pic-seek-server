@@ -7,6 +7,7 @@ const cors = require("cors");
 const logger = require("./logger");
 
 const imageRouter = require('./Routes/image.route');
+const commentRouter = require('./Routes/comment.route');
 
 
 // middleware
@@ -18,6 +19,7 @@ app.use(logger);
 
 // routes
 app.use('/api/v1/image', imageRouter);
+app.use('/api/v1/comment', commentRouter);
 
 //playground
 
