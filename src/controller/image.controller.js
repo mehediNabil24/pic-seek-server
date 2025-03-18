@@ -52,7 +52,7 @@ const insertAiImage = async(req,res)=>{
 
  const getAllImage = async(req,res)=>{
     try{
-        const result = await imageCollection.find().project({_id:1, userImg:1, username:1, thumb_img: 1}).toArray();
+        const result = await imageCollection.find().sort({ _id: -1 }).project({_id:1, userImg:1, username:1, thumb_img: 1}).toArray();
         res.send(result);
 
     }
