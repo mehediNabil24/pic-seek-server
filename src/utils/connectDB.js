@@ -12,10 +12,11 @@ const client = new MongoClient(process.env.URI, {
 
 const db =client.db('may-ai-server-db');
 const imageCollection = db.collection('images');
+const commentCollection =db.collection('comments')
 
 async function connectDB() {
   return client.connect();
 
 }
 
-module.exports ={ connectDB, imageCollection};
+module.exports ={ connectDB, imageCollection ,commentCollection};
