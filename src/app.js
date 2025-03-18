@@ -4,6 +4,7 @@ const app = express();
 require('dotenv').config();
 const cors = require("cors");
 const logger = require("./logger");
+const getImageBuffer = require("./utils/ai/getImageBuffer");
 
 
 // middleware
@@ -24,7 +25,8 @@ app.post('/create-image', async(req,res)=>{
       status: 400,
       message: "please provide email, prompt, userName, userImg,category"
     });
-    return;
+   // create a final prompt and genreate image buffer 
+  const buffer = await getImageBuffer(prompt,category)
   }
   res.send({});
 })
