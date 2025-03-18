@@ -1,10 +1,12 @@
 //defination
+require('dotenv').config();
 const express = require("express");
 const app = express();
-require('dotenv').config();
+
 const cors = require("cors");
 const logger = require("./logger");
 const getImageBuffer = require("./utils/ai/getImageBuffer");
+const generateImageUrl = require("./utils/ai/generateImageUrl");
 
 
 // middleware
@@ -25,10 +27,21 @@ app.post('/create-image', async(req,res)=>{
       status: 400,
       message: "please provide email, prompt, userName, userImg,category"
     });
+  }
+
+
    // create a final prompt and genreate image buffer 
   const buffer = await getImageBuffer(prompt,category)
-  }
-  res.send({});
+  // upload a image and get url
+  const data = await generateImageUrl(buffer,prompt);
+  console.log(data);
+  res.send(data)
+
+
+
+
+  
+ 
 })
 
 //
