@@ -4,7 +4,7 @@ const { commentCollection } = require("../utils/connectDB");
 
 const postUserComment = async (req, res) => {
   const { imageId, prompt, email, comment } = req.body;
-  if (!imageId || !prompt || !email) {
+  if (!imageId || !prompt || !email || !comment) {
     res.status(400).send({
       status: 400,
       message: "please provide imageId, prompt, email",
@@ -24,4 +24,31 @@ const postUserComment = async (req, res) => {
   res.send({ ...result, reply });
 };
 
-module.exports = { postUserComment };
+const getCommentsByImageId = async (req, res) => {
+    try {
+        const { id } = req.params;  // Image ID from the request parameter
+
+        // Validate if the ID is a valid ObjectId format (if needed)
+        if (id.length !== 24) {
+            return res.status(400).send({
+                status: 400,
+                message: "Please provide a valid image ID",
+            });
+        }
+
+        // Query to find all comments related to the imageId
+        const query = { imageId: id }; 
+        const result = await commentCollection
+            .find(query)
+            .sort({ createdAt: -1 })  // Sort by newest comments first
+            .toArray();
+
+        res.send(result);
+    } catch (err) {
+        console.error(err);
+        
+    }
+};
+
+
+module.exports = { postUserComment, getCommentsByImageId };
